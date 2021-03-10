@@ -27,8 +27,15 @@ def HashPageSHA512 (response, url):
 
 timeoutDelay = 2
 def fetch (session, url):
-    with session.get(url, timeout=timeoutDelay) as response:
-        HashPageSHA512 (response, response.url)
+    try:
+        with session.get(url, timeout=timeoutDelay) as response:
+            sc = response.status_code
+            if sc == 200:
+                HashPageSHA512 (response, response.url)
+    except:
+        print(f'==================')
+        print(f'Dead Link {url}')
+        pass
 
 # Once finished this will tell us how long it took to complete the whole list so you can calculate how long it would take for future attempts
 # Using the second function below you can visit the random wiki page 5000 times using 10 workers. 
