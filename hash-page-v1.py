@@ -34,14 +34,13 @@ def fetch (session, url):
 # Using the second function below you can visit the random wiki page 5000 times using 10 workers. 
 # This only takes approx 16seconds to complete. 
 @timer(1, 1)
-randomWikiHashAttempts = 5000
-threadWorkers = 10
+
 def main():
-        with ThreadPoolExecutor(max_workers=threadWorkers) as executor:
+        with ThreadPoolExecutor(max_workers=10) as executor:
             with requests.Session() as session:
                     # this will send each URL in the DOMAINS array to be hashed
                     executor.map(fetch, [session] * len(DOMAINS), [DOMAINS][0])
                     
                     # Use this one if you want to just check a how long it would take to visit random wiki pages and hash the page contents
-                    # executor.map(fetch, [session] * randomWikiHashAttempts, [URL] * randomWikiHashAttempts)
+                    # executor.map(fetch, [session] * 5000, [URL] * 5000)
                     executor.shutdown(wait=True)
